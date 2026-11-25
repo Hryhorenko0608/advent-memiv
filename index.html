@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Адвент мемів</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Cormorant+SC:wght@500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="фото/фон_стіл.jpg">
+<style>
+/* ===== НАЛАШТУВАННЯ: кольори ===== */
+:root{
+  --cream:#f4e8d0;
+  --gold:#e3bd78;
+  --gold2:#b8893f;
+  --cherry:#8a1c2a;
+  --wood:#1c110b;
+  --ink:#2b1a10;
+  --paper:#f3ead8;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--wood)}
+body{font-family:var(--serif);font-weight:500;color:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;color:inherit}
+.hidden{display:none!important}
+img,image{-webkit-user-drag:none;user-select:none}
+
+/* стіл під сценами 2–4 */
+.table{position:fixed;inset:0;z-index:-2;background:url("фото/фон_стіл.jpg") center/cover no-repeat}
+.table::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 48%,rgba(20,10,5,.05) 0%,rgba(20,10,5,.45) 62%,rgba(12,6,3,.85) 100%)}
+.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 30% 12%,rgba(255,170,80,.22),transparent 45%);animation:flicker 4s infinite steps(1,end)}
+@keyframes flicker{0%{opacity:.85}12%{opacity:1}24%{opacity:.9}31%{opacity:.75}48%{opacity:1}63%{opacity:.88}77%{opacity:.95}90%{opacity:.8}}
+
+/* звук */
+.sound{position:fixed;top:14px;right:14px;z-index:60;display:flex;gap:6px}
+.sound button{border:1px solid rgba(227,189,120,.45);border-radius:999px;padding:7px 15px 8px;background:rgba(20,12,8,.55);color:var(--cream);font-style:italic;font-weight:600;font-size:16px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.sound button:hover{border-color:var(--gold)}
+
+/* орнамент: тонкі золоті лінії з ромбиком */
+.orn{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--gold);margin-bottom:12px;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.orn::before,.orn::after{content:"";flex:0 1 clamp(24px,10vw,110px);min-width:18px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn::after{background:linear-gradient(270deg,transparent,var(--gold))}
+.orn span{font-style:italic;font-weight:500;font-size:clamp(18px,2.4vw,22px);letter-spacing:.04em;line-height:1.15;white-space:nowrap}
+#intro .orn span{white-space:normal}
+.orn b{font-style:normal;font-weight:600;font-size:1.35em;letter-spacing:0;font-variant-numeric:lining-nums;margin:0 .08em}
+.rule{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px auto 14px;color:var(--gold)}
+.rule::before,.rule::after{content:"";height:1px;width:clamp(50px,12vw,130px);background:linear-gradient(90deg,transparent,rgba(227,189,120,.8))}
+.rule::after{background:linear-gradient(270deg,transparent,rgba(227,189,120,.8))}
+.rule i{width:7px;height:7px;border:1px solid var(--gold);transform:rotate(45deg)}
+
+/* сцени */
+.scene{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:76px 18px 48px;text-align:center}
+.scene h2{font-style:italic;font-weight:500;font-size:clamp(44px,7.4vw,78px);line-height:.98;color:var(--cream);text-shadow:0 2px 24px rgba(0,0,0,.65)}
+.hint{font-style:italic;font-size:clamp(18px,2.4vw,22px);color:rgba(244,232,208,.92);text-shadow:0 1px 12px rgba(0,0,0,.85);min-height:1.4em}
+.hand{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(28px,4vw,38px);color:var(--gold);text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-width:200px;border:1px solid var(--gold);border-radius:999px;padding:12px 40px 14px;background:linear-gradient(180deg,rgba(227,189,120,.2),rgba(227,189,120,.06));color:var(--cream);font-style:italic;font-weight:500;font-size:26px;letter-spacing:.02em;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 10px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,235,190,.25);transition:transform .25s, background .25s}
+.btn:hover{transform:translateY(-2px);background:linear-gradient(180deg,rgba(227,189,120,.34),rgba(227,189,120,.12))}
+.skip{margin-top:10px;background:none;border:0;opacity:.6;font-style:italic;font-size:17px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.skip:hover{opacity:1}
+.appear{animation:appear .8s cubic-bezier(.2,.8,.3,1) both}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}}
+svg.stage{overflow:visible;touch-action:none;user-select:none;-webkit-user-select:none}
+
+/* ===== 1. ВХІД ===== */
+#intro{overflow:hidden;background:#120a06}
+#intro video,#intro .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#intro::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(18,10,6,.2),rgba(18,10,6,.75) 85%),linear-gradient(180deg,transparent 60%,rgba(18,10,6,.9))}
+#intro .in{position:relative;z-index:2;max-width:780px}
+#intro h1{font-weight:600;font-size:clamp(70px,13.5vw,160px);line-height:.86;letter-spacing:-.01em;color:var(--cream);text-shadow:0 4px 40px rgba(0,0,0,.5);margin:2px 0 0}
+#intro h1 em{display:block;font-style:italic;font-weight:500;color:var(--gold)}
+#intro p{font-style:italic;font-size:clamp(20px,2.6vw,25px);line-height:1.35;max-width:560px;margin:0 auto 30px;color:rgba(244,232,208,.94);text-shadow:0 1px 14px rgba(0,0,0,.8)}
+#snow{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.cue{position:absolute;bottom:22px;left:0;right:0;z-index:2;font-family:'Cormorant SC',serif;font-size:15px;letter-spacing:.3em;opacity:.75}
+
+/* ===== 2. МАНДАРИНКА ===== */
+#mandarin{width:min(86vw,560px,60vh);height:auto;margin:4px 0}
+#mandarin .piece{cursor:grab;transform-box:view-box}
+#mandarin .piece:active{cursor:grabbing}
+#mandarin .piece.lift{filter:url(#lift)}
+#peeled{transform-box:fill-box;transform-origin:50% 90%}
+#peeled.done{animation:breathe 2.4s ease-in-out}
+@keyframes breathe{40%{transform:scale(1.03)}}
+.count{font-style:italic;font-size:24px;color:var(--gold);text-shadow:0 1px 10px rgba(0,0,0,.8)}
+
+/* ===== 3. КАКАО ===== */
+#cocoa{width:min(94vw,640px,76vh);height:auto;margin:2px 0}
+#cezve{cursor:grab}
+.mallow{cursor:grab}
+.mallow.in{pointer-events:none}
+.bob{animation:bob 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes bob{50%{transform:translate(1.5px,2px) rotate(5deg)}}
+.steps{display:flex;gap:8px;justify-content:center;margin:2px 0 8px}
+.steps i{width:34px;height:2px;background:rgba(244,232,208,.25);transition:background .5s}
+.steps i.on{background:var(--gold)}
+#steam ellipse{opacity:0;transform-box:fill-box;transform-origin:center}
+#steam.on ellipse{animation:steam 4s ease-out infinite}
+#steam.on ellipse:nth-child(2){animation-delay:1.3s}#steam.on ellipse:nth-child(3){animation-delay:2.6s}
+@keyframes steam{0%{opacity:0;transform:translateY(0) scale(.7)}30%{opacity:.5}100%{opacity:0;transform:translateY(-170px) scale(1.6)}}
+
+/* ===== 4. ПЛЕД ===== */
+.plaids{display:flex;gap:clamp(2px,3vw,40px);justify-content:center;align-items:flex-end;flex-wrap:nowrap;margin:18px 0 18px}
+.plaid{border:0;background:none;width:clamp(96px,29vw,270px);display:flex;flex-direction:column;align-items:center;gap:6px;transition:transform .45s cubic-bezier(.3,.8,.3,1.25),filter .45s}
+.plaid img{width:100%;height:auto;filter:drop-shadow(10px 18px 14px rgba(8,4,2,.6));transition:filter .45s}
+.plaid span{font-style:italic;font-size:clamp(18px,2.4vw,24px);color:var(--cream);text-shadow:0 1px 10px rgba(0,0,0,.8)}
+.plaid:hover{transform:translateY(-10px) rotate(-1.5deg)}
+.plaid.picked{transform:translateY(-14px) scale(1.06)}
+.plaid.picked img{filter:drop-shadow(0 0 22px rgba(255,200,120,.45)) drop-shadow(10px 22px 16px rgba(8,4,2,.6))}
+.plaid.picked span{color:var(--gold)}
+.plaids.chosen .plaid:not(.picked){filter:brightness(.55) saturate(.7)}
+
+/* ===== 5. КАЛЕНДАР ===== */
+#s-cal{overflow:hidden;background:radial-gradient(ellipse at 50% 45%,#3a2414 0%,#1d110a 55%,#0d0704 100%)}
+.bokeh{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.bokeh i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,206,130,.9),rgba(255,170,80,.35) 55%,transparent 70%);filter:blur(var(--bl));opacity:var(--op);animation:float var(--d) ease-in-out infinite alternate}
+@keyframes float{to{transform:translate(var(--dx),var(--dy)) scale(1.1);opacity:calc(var(--op)*1.5)}}
+#s-cal > .head{position:relative;z-index:2}
+.countdown{font-style:italic;font-size:clamp(17px,2.2vw,21px);color:var(--gold);margin-top:4px;min-height:1.3em;text-shadow:0 1px 10px rgba(0,0,0,.8)}
+.calstage{position:relative;z-index:1;margin-top:14px}
+.cab{position:relative;margin:0 auto;perspective:1800px;filter:drop-shadow(0 40px 50px rgba(0,0,0,.7))}
+.cab .photo{position:absolute;inset:0;overflow:hidden;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent),linear-gradient(180deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-composite:source-in;
+  mask:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent),linear-gradient(180deg,transparent,#000 4%,#000 96%,transparent);mask-composite:intersect}
+.cab .photo img{position:absolute;max-width:none}
+/* гірлянда над скринькою */
+.garland{position:absolute;left:4%;right:4%;top:calc(var(--gtop)*1%);height:18%;z-index:4;pointer-events:none;overflow:visible}
+.garland .b{animation:twinkle 2.6s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.45}}
+/* декор біля скриньки */
+.decor{position:absolute;z-index:3;pointer-events:none;filter:drop-shadow(8px 16px 14px rgba(0,0,0,.65))}
+/* зачинена скринька: 775×768 фрагмент фото */
+#closed{width:calc(775px*var(--s));height:calc(768px*var(--s));transition:transform 1.4s cubic-bezier(.6,0,.4,1),opacity 1.1s}
+#closed .photo img{width:calc(1376px*var(--s));left:calc(-300px*var(--s));top:0}
+#closed .inner{position:absolute;left:calc(118px*var(--s));top:calc(148px*var(--s));width:calc(542px*var(--s));height:calc(537px*var(--s));
+  background:radial-gradient(ellipse at 50% 55%,rgba(255,190,110,.7),rgba(120,60,20,.4) 40%,#120a05 80%);box-shadow:inset 0 0 calc(60px*var(--s)) #000}
+.door{position:absolute;top:calc(148px*var(--s));width:calc(271px*var(--s));height:calc(537px*var(--s));transform-style:preserve-3d;cursor:grab;touch-action:none;transition:transform 1.3s cubic-bezier(.3,.7,.2,1)}
+.door.l{left:calc(118px*var(--s));transform-origin:left center;transform:rotateY(calc(var(--open,0)*-108deg))}
+.door.r{left:calc(389px*var(--s));transform-origin:right center;transform:rotateY(calc(var(--open,0)*108deg))}
+.door .f,.door .b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:url("фото/скринька_зачинена.jpg") no-repeat;background-size:calc(1376px*var(--s)) auto}
+.door.l .f{background-position:calc(-418px*var(--s)) calc(-148px*var(--s))}
+.door.r .f{background-position:calc(-689px*var(--s)) calc(-148px*var(--s))}
+.door .b{transform:rotateY(180deg);background-position:calc(-470px*var(--s)) calc(-160px*var(--s));filter:brightness(.42) saturate(.8)}
+.cab.dragging .door{transition:none}
+.cab.open .door{pointer-events:none}
+#closed.zoom{transform:scale(2.4) translateY(4%);opacity:0}
+/* шухлядки: 936×660 фрагмент фото */
+#drawers{width:calc(936px*var(--s2));height:calc(660px*var(--s2))}
+#drawers .photo img{width:calc(1376px*var(--s2));left:calc(-220px*var(--s2));top:calc(-80px*var(--s2))}
+#drawers.show{animation:arrive 1.2s cubic-bezier(.2,.8,.3,1) both}
+@keyframes arrive{from{opacity:0;transform:scale(1.12)}}
+.hole{position:absolute;background:radial-gradient(ellipse at 50% 30%,#4a2a14,#0d0805 70%);box-shadow:inset 0 calc(14px*var(--s2)) calc(22px*var(--s2)) #000}
+.hole.lit{background:radial-gradient(ellipse at 50% 35%,#ffcf8a,#b8661f 45%,#2a1408 85%);box-shadow:inset 0 calc(10px*var(--s2)) calc(18px*var(--s2)) rgba(0,0,0,.8),0 0 calc(40px*var(--s2)) rgba(255,180,90,.45)}
+.drawer{position:absolute;border:0;padding:0;cursor:grab;touch-action:none;background:url("фото/скринька_шухлядки.jpg") no-repeat;background-size:calc(1376px*var(--s2)) auto;
+  transition:transform .6s cubic-bezier(.25,.8,.3,1.15),box-shadow .6s,filter .3s;transform-origin:50% 100%}
+.drawer:hover{filter:brightness(1.1)}
+.drawer:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.drawer.open{transform:translateY(24%) scale(1.13);box-shadow:0 calc(26px*var(--s2)) calc(30px*var(--s2)) rgba(0,0,0,.7);z-index:2}
+.drawer.open::before{content:"";position:absolute;left:14%;right:14%;top:-16%;height:22%;background:linear-gradient(180deg,#fffaf0,#e9dcc2);border-radius:2px 2px 0 0;box-shadow:0 -2px 6px rgba(0,0,0,.3);transform:rotate(-2deg)}
+.plate{position:absolute;left:50%;top:12%;transform:translateX(-50%);min-width:40%;padding:3% 9% 2%;border-radius:2px;
+  background:linear-gradient(180deg,#f6dfa6,#cfa252 45%,#a07533 55%,#dcb46a);box-shadow:0 1px 2px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,245,210,.85),inset 0 0 0 1px rgba(110,75,25,.35);
+  font-weight:700;font-size:max(15px,calc(36px*var(--s2)));line-height:1;color:#3a2610;text-shadow:0 1px 0 rgba(255,240,200,.6);font-variant-numeric:lining-nums}
+.drawer.today .plate{animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 calc(22px*var(--s2)) rgba(255,205,120,.95),inset 0 1px 0 rgba(255,245,210,.85)}}
+.tag{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);font-style:italic;font-size:max(12px,calc(22px*var(--s2)));color:#ffe3ad;text-shadow:0 1px 4px #000;white-space:nowrap}
+
+/* листівка */
+#modal{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(10,5,3,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+#modal.on{opacity:1;pointer-events:auto}
+.card{width:var(--cw,380px);height:var(--ch,480px);perspective:1600px;cursor:pointer}
+.card-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.3,.8,.25,1.05)}
+.face{position:absolute;inset:0;border-radius:4px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;color:var(--ink);
+  background-color:var(--paper);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .35  0 0 0 0 .2  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  box-shadow:0 40px 80px rgba(0,0,0,.6),inset 0 0 40px rgba(150,110,60,.18)}
+.front{padding:var(--pad) var(--pad) 0;display:flex;flex-direction:column}
+.meme{flex:1;overflow:hidden;background:#d9ccb2;position:relative;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.15)}
+.meme img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#6b4a2a;background:radial-gradient(circle at 50% 45%,#efe2c6,#d4c3a2)}
+.ph b{font-style:italic;font-weight:600;font-size:48px}
+.ph i{font-family:'Caveat';font-style:normal;font-weight:600;font-size:24px}
+.cap{height:var(--caph);display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:'Caveat';font-weight:700;font-size:28px;color:var(--cherry)}
+.cap small{font-style:italic;font-weight:600;font-size:18px;color:#7a5a3a;font-family:var(--serif)}
+.back{transform:rotateY(180deg);padding:8%;display:grid;grid-template-columns:1fr 1px 1fr;gap:6%}
+.back .line{background:rgba(90,60,30,.35)}
+.back .msg{font-family:'Caveat';font-weight:600;font-size:clamp(22px,3.4vh,28px);line-height:1.15;color:#3d2a18;align-self:center;text-align:left}
+.back .msg b{display:block;font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(34px,5vh,46px);line-height:.95;color:var(--cherry);margin-bottom:10px}
+.back .right{display:flex;flex-direction:column;align-items:flex-end;gap:10%}
+.stamp{width:58%;aspect-ratio:4/5;padding:6px;background:#fffaf0;transform:rotate(4deg);filter:drop-shadow(0 1px 1px rgba(0,0,0,.25));
+  -webkit-mask:radial-gradient(circle at 4px 4px,transparent 2.6px,#000 3px) -4px -4px/8px 8px,linear-gradient(#000,#000) content-box;-webkit-mask-composite:source-over;
+  mask:radial-gradient(circle at 4px 4px,transparent 2.6px,#000 3px) -4px -4px/8px 8px,linear-gradient(#000,#000) content-box;mask-composite:add}
+.stamp div{width:100%;height:100%;background:#1e3a2a url("фото/мандаринка_ціла.webp") center 60%/88% auto no-repeat}
+.postmark{width:62%;aspect-ratio:1;border:2px solid rgba(138,28,42,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:rgba(138,28,42,.7);font-weight:700;transform:rotate(-14deg);margin-top:-22%;margin-right:22%}
+.postmark .d{font-size:clamp(26px,4vh,36px);line-height:1}
+.postmark .m{font-family:'Cormorant SC';font-size:12px;letter-spacing:.2em}
+.addr{width:100%;display:flex;flex-direction:column;gap:20px;margin-top:auto}
+.addr span{border-bottom:1px solid rgba(90,60,30,.35);font-family:'Caveat';font-size:22px;color:#3d2a18;text-align:left;padding-left:4px}
+#close{position:absolute;top:16px;right:16px;width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);background:rgba(20,12,8,.6);font-size:26px;line-height:1}
+.flip-hint{font-style:italic;font-size:17px;opacity:.8}
+
+#toast{position:fixed;left:50%;bottom:28px;z-index:80;transform:translate(-50%,20px);background:rgba(20,12,8,.88);border:1px solid var(--gold);color:var(--cream);font-style:italic;font-size:19px;padding:11px 24px 13px;border-radius:999px;opacity:0;transition:.35s;pointer-events:none;white-space:nowrap;backdrop-filter:blur(8px)}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="table"></div><div class="glow"></div>
+<div class="sound"><button id="track" title="Змінити мелодію">♪ Колискова</button><button id="mute" title="Увімкнути або вимкнути звук">звук</button></div>
+
+<!-- ===== 1. ВХІД ===== -->
+<section id="intro" class="scene">
+  <img class="poster" src="відео/сніг.jpg" alt="">
+  <video autoplay muted loop playsinline poster="відео/сніг.jpg"><source src="відео/сніг.mp4" type="video/mp4"></video>
+  <canvas id="snow"></canvas>
+  <div class="in">
+    <div class="orn"><span>дванадцять вечорів до Нового року</span></div>
+    <h1>Адвент <em>мемів</em></h1>
+    <div class="rule"><i></i></div>
+    <p>Щовечора одна листівка з мемом. Але спершу трохи затишку: мандаринка, какао і теплий плед.</p>
+    <button class="btn" id="start">Почати</button>
+    <div><button class="skip hidden" id="jump">я вже тут була, одразу до календаря</button></div>
+  </div>
+  <div class="cue">гортай вниз</div>
+</section>
+
+<!-- ===== 2. МАНДАРИНКА ===== -->
+<section id="s-mandarin" class="scene hidden">
+  <div class="orn"><span>крок <b>1</b> з <b>3</b></span></div>
+  <h2>Почисть мандаринку</h2>
+  <div class="rule"><i></i></div>
+  <p class="hint" id="m-hint">Відривай шкірку: тягни шматочок або натисни на нього</p>
+  <svg id="mandarin" class="stage" viewBox="560 150 880 820" aria-label="Мандаринка">
+    <defs>
+      <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="10" dy="18" stdDeviation="14" flood-color="#0a0502" flood-opacity=".55"/></filter>
+      <filter id="lift" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="14" dy="26" stdDeviation="12" flood-color="#0a0502" flood-opacity=".6"/></filter>
+      <filter id="warm"><feColorMatrix type="matrix" values="1.02 .04 0 0 0  .02 .95 0 0 0  0 0 .82 0 0  0 0 0 1 0"/></filter>
+      <radialGradient id="contact"><stop offset="0" stop-color="#000" stop-opacity=".7"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+      <g id="pdefs"></g>
+    </defs>
+    <ellipse cx="1000" cy="868" rx="300" ry="34" fill="url(#contact)"/>
+    <g filter="url(#warm)">
+      <image id="peeled" href="фото/мандаринка_почищена.webp" x="689" y="336" width="606" height="539" filter="url(#shadow)"/>
+      <g id="peel" filter="url(#shadow)"></g>
+      <g id="landed"></g>
+    </g>
+  </svg>
+  <div class="count" id="m-count">0 з 13</div>
+  <div id="m-next" class="hidden appear" style="margin-top:6px">
+    <p class="hand" style="margin-bottom:14px">Пахне Новим роком</p>
+    <button class="btn" data-go="s-cocoa">Далі</button>
+  </div>
+  <button class="skip" data-skip="s-cocoa">пропустити</button>
+</section>
+
+<!-- ===== 3. КАКАО ===== -->
+<section id="s-cocoa" class="scene hidden">
+  <div class="orn"><span>крок <b>2</b> з <b>3</b></span></div>
+  <h2>Звари какао</h2>
+  <div class="rule"><i></i></div>
+  <div class="steps"><i class="on"></i><i></i><i></i></div>
+  <p class="hint" id="c-hint">Затисни турку, щоб налити какао в чашку</p>
+  <svg id="cocoa" class="stage" viewBox="0 0 800 640" aria-label="Чашка какао">
+    <defs>
+      <filter id="sh2" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="12" dy="18" stdDeviation="12" flood-color="#0a0502" flood-opacity=".6"/></filter>
+      <filter id="sh3" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="5" dy="8" stdDeviation="5" flood-color="#0a0502" flood-opacity=".55"/></filter>
+      <filter id="sh4" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="18" dy="40" stdDeviation="16" flood-color="#0a0502" flood-opacity=".5"/></filter>
+      <filter id="soft"><feGaussianBlur stdDeviation="14"/></filter>
+      <clipPath id="liqClip"><circle id="liqCircle" cx="272" cy="299" r="132"/></clipPath>
+      <linearGradient id="streamGrad" gradientUnits="userSpaceOnUse" x1="262" y1="0" x2="300" y2="0"><stop offset="0" stop-color="#3b1d0e"/><stop offset=".4" stop-color="#9a6440"/><stop offset=".55" stop-color="#d4a982"/><stop offset=".7" stop-color="#7a4527"/><stop offset="1" stop-color="#2e160a"/></linearGradient>
+      <radialGradient id="meniscus"><stop offset=".86" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+    </defs>
+    <g filter="url(#sh2)"><image href="фото/чашка.webp" x="40" y="63" width="617" height="472"/></g>
+    <g clip-path="url(#liqClip)" id="liquid" opacity="0">
+      <g id="liqRot"><image href="фото/какао_поверхня.webp" x="62" y="89" width="420" height="420" preserveAspectRatio="none"/></g>
+      <circle id="liqDark" cx="272" cy="299" r="210" fill="#140803" opacity=".55"/>
+      <circle cx="272" cy="299" r="200" fill="url(#meniscus)"/>
+      <g id="ripples"></g>
+    </g>
+    <g id="floating"></g>
+    <path id="stream" d="" fill="none" stroke="url(#streamGrad)" stroke-width="13" stroke-linecap="round" opacity="0"/>
+    <g id="steam" fill="#fff8ec" filter="url(#soft)">
+      <ellipse cx="250" cy="280" rx="40" ry="60"/><ellipse cx="290" cy="290" rx="46" ry="64"/><ellipse cx="270" cy="270" rx="36" ry="56"/>
+    </g>
+    <g id="spoon" filter="url(#sh3)"><image href="фото/ложка.webp" width="380" height="85"/></g>
+    <g id="mallows"></g>
+    <g id="cezve" filter="url(#sh4)"><image href="фото/турка.webp" width="320" height="287"/></g>
+  </svg>
+  <div id="c-next" class="hidden appear">
+    <p class="hand" style="margin-bottom:14px">Ідеальне какао. Обережно, гаряче</p>
+    <button class="btn" data-go="s-plaid">Далі</button>
+  </div>
+  <button class="skip" data-skip="s-plaid">пропустити</button>
+</section>
+
+<!-- ===== 4. ПЛЕД ===== -->
+<section id="s-plaid" class="scene hidden">
+  <div class="orn"><span>крок <b>3</b> з <b>3</b></span></div>
+  <h2>Обери плед</h2>
+  <div class="rule"><i></i></div>
+  <p class="hint">У нього загорнемося, поки відкриваємо календар</p>
+  <div class="plaids" id="plaids">
+    <button class="plaid" data-i="1"><img src="фото/пледи_1.webp" alt=""><span>вишневий</span></button>
+    <button class="plaid" data-i="2"><img src="фото/пледи_2.webp" alt=""><span>вершковий</span></button>
+    <button class="plaid" data-i="3"><img src="фото/пледи_3.webp" alt=""><span>ялинкова клітинка</span></button>
+  </div>
+  <div id="p-next" class="hidden appear"><button class="btn" data-go="s-cal">До календаря</button></div>
+</section>
+
+<!-- ===== 5. КАЛЕНДАР ===== -->
+<section id="s-cal" class="scene hidden">
+  <div class="bokeh" id="bokeh"></div>
+  <div class="head">
+    <div class="orn"><span>адвент мемів</span></div>
+    <h2 id="cal-title">Розв'яжи стрічку</h2>
+    <div class="rule"><i></i></div>
+    <p class="hint" id="cal-hint">Потягни дверцята в боки або натисни на бант</p>
+    <p class="countdown" id="countdown"></p>
+  </div>
+  <div class="calstage">
+    <div class="cab" id="closed" style="--gtop:2">
+      <div class="photo"><img src="фото/скринька_зачинена.jpg" alt=""></div>
+      <div class="inner"></div>
+      <div class="door l"><div class="f"></div><div class="b"></div></div>
+      <div class="door r"><div class="f"></div><div class="b"></div></div>
+    </div>
+    <div class="cab hidden" id="drawers" style="--gtop:2"></div>
+  </div>
+</section>
+
+<!-- листівка -->
+<div id="modal" aria-hidden="true">
+  <button id="close" aria-label="Закрити">×</button>
+  <div class="card" id="card">
+    <div class="card-in" id="card-in">
+      <div class="face front">
+        <div class="meme" id="meme"></div>
+        <div class="cap"><span id="cap-text">З наступаючим!</span><small id="cap-date"></small></div>
+      </div>
+      <div class="face back">
+        <div class="msg"><b>З Новим роком!</b>Тут для тебе маленька порція сміху. Переверни листівку</div>
+        <div class="line"></div>
+        <div class="right">
+          <div class="stamp"><div></div></div>
+          <div class="postmark"><span class="d" id="pm-day">20</span><span class="m">грудня</span></div>
+          <div class="addr"><span>Кому: тобі</span><span>Від: @tania_tsybulya</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flip-hint">натисни на листівку, щоб перевернути</div>
+</div>
+<div id="toast"></div>
+
+<script>
+/* ===== НАЛАШТУВАННЯ ===== */
+const FIRST_DAY = 20;            // перша шухлядка: 20 грудня
+const DAYS = 12;                 // скільки шухлядок
+const MEME_FOLDER = 'меми/';     // картинки 01.jpg … 12.jpg
+const MEME_EXT = ['jpg','png','webp'];
+const CAPTIONS = ['', '', '', '', '', '', '', '', '', '', '', ''];   // підписи під мемами по днях (порожньо = «З наступаючим!»)
+const MUSIC = [ ['Колискова','звуки/мелодія_колискова.mp3'], ['Джаз','звуки/мелодія_джаз.mp3'], ['Святкова','звуки/мелодія_святкова.mp3'] ];
+const VOLUME = { fire:.55, crowd:.16, music:.32 };   // гучність фонових звуків
+const TEST_MODE = new URLSearchParams(location.search).has('test'); // ?test відкриває всі дні
+
+const $ = s => document.querySelector(s);
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs={}, parent) => { const el=document.createElementNS(NS,tag); for(const k in attrs) el.setAttribute(k,attrs[k]); if(parent) parent.appendChild(el); return el; };
+const cap = (el,e) => { try{ el.setPointerCapture(e.pointerId); }catch(_){} };
+const svgPt = (svg,e) => { const p=svg.createSVGPoint(); p.x=e.clientX; p.y=e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); };
+const store = { get(k,d){ try{ return JSON.parse(localStorage.getItem('advent-'+k)) ?? d; }catch(e){ return d; } }, set(k,v){ try{ localStorage.setItem('advent-'+k, JSON.stringify(v)); }catch(e){} } };
+const wait = ms => new Promise(r=>setTimeout(r,ms));
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.remove('on'),2600); }
+
+/* ===== ЗВУК: камін, гомін, мелодія + дрібні ефекти ===== */
+const Snd = {
+  ctx:null, master:null, on: store.get('sound', true), track: store.get('track', 0) % MUSIC.length, amb:{},
+  init(){ if(this.ctx){ if(this.ctx.state==='suspended') this.ctx.resume(); return; }
+    try{ this.ctx=new (window.AudioContext||window.webkitAudioContext)(); this.master=this.ctx.createGain(); this.master.gain.value=this.on?1:0; this.master.connect(this.ctx.destination); }catch(e){} },
+  ambient(){ // фон вмикається з першим натисканням і плавно наростає
+    this.init(); if(!this.ctx || this.amb.fire) return;
+    const make=(key,src)=>{ const a=new Audio(src); a.loop=true; a.preload='auto';
+      const g=this.ctx.createGain(); g.gain.value=0; this.ctx.createMediaElementSource(a).connect(g).connect(this.master);
+      a.play().catch(()=>{}); g.gain.linearRampToValueAtTime(VOLUME[key], this.ctx.currentTime+4); this.amb[key]={a,g}; };
+    make('fire','звуки/камін.mp3'); make('crowd','звуки/гомін.mp3'); make('music',MUSIC[this.track][1]);
+  },
+  nextTrack(){ this.track=(this.track+1)%MUSIC.length; store.set('track',this.track); const m=this.amb.music; if(m){ m.a.src=MUSIC[this.track][1]; m.a.play().catch(()=>{}); } drawSound(); },
+  ok(){ return this.ctx && this.on; },
+  noiseBuf(sec){ const c=this.ctx, b=c.createBuffer(1, Math.max(1,c.sampleRate*sec|0), c.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; return b; },
+  burst({t=0,dur=.08,type='bandpass',freq=3000,q=1,gain=.3,to=null}){ if(!this.ok())return; const c=this.ctx,s=c.createBufferSource(); s.buffer=this.noiseBuf(dur+.05); const f=c.createBiquadFilter(); f.type=type; f.frequency.value=freq; f.Q.value=q; const g=c.createGain(), t0=c.currentTime+t; g.gain.setValueAtTime(.0001,t0); g.gain.linearRampToValueAtTime(gain,t0+Math.min(.01,dur/3)); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); if(to) f.frequency.exponentialRampToValueAtTime(to,t0+dur); s.connect(f).connect(g).connect(this.master); s.start(t0); s.stop(t0+dur+.05); },
+  tone({t=0,freq=440,dur=.5,type='sine',gain=.1,to=null}){ if(!this.ok())return; const c=this.ctx,o=c.createOscillator(),g=c.createGain(),t0=c.currentTime+t; o.type=type; o.frequency.setValueAtTime(freq,t0); if(to) o.frequency.exponentialRampToValueAtTime(to,t0+dur*.8); g.gain.setValueAtTime(.0001,t0); g.gain.linearRampToValueAtTime(gain,t0+.006); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); o.connect(g).connect(this.master); o.start(t0); o.stop(t0+dur+.05); },
+  peel(){ for(let i=0;i<6;i++) this.burst({t:i*.03+Math.random()*.03,dur:.03+Math.random()*.06,freq:1500+Math.random()*3000,q:4,gain:.22}); this.burst({dur:.25,type:'lowpass',freq:700,gain:.08}); },
+  pourStart(){ if(!this.ok()||this.pour)return; const c=this.ctx,s=c.createBufferSource(); s.buffer=this.noiseBuf(2); s.loop=true; const f=c.createBiquadFilter(); f.type='bandpass'; f.frequency.value=520; f.Q.value=1.2; const lfo=c.createOscillator(), lg=c.createGain(); lfo.frequency.value=9; lg.gain.value=140; lfo.connect(lg).connect(f.frequency); const g=c.createGain(); g.gain.setValueAtTime(.0001,c.currentTime); g.gain.linearRampToValueAtTime(.28,c.currentTime+.2); s.connect(f).connect(g).connect(this.master); s.start(); lfo.start(); this.pour={s,g,lfo}; },
+  pourStop(){ if(!this.pour)return; const {s,g,lfo}=this.pour, t=this.ctx.currentTime; g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(g.gain.value,t); g.gain.linearRampToValueAtTime(.0001,t+.25); s.stop(t+.3); lfo.stop(t+.3); this.pour=null; },
+  clink(){ this.tone({freq:2650,dur:.9,gain:.06}); this.tone({freq:3970,dur:.5,gain:.03}); this.tone({freq:6100,dur:.25,gain:.015}); },
+  plop(){ this.tone({freq:420,to:130,dur:.22,gain:.12}); this.burst({dur:.08,type:'lowpass',freq:500,gain:.12}); },
+  rustle(){ this.burst({dur:.7,type:'bandpass',freq:900,to:2400,q:.6,gain:.14}); },
+  bells(){ [1046.5,1318.5,1568,2093].forEach((f,i)=>{ this.tone({t:i*.13,freq:f,dur:1.8,gain:.06}); this.tone({t:i*.13,freq:f*2.76,dur:.6,gain:.015}); }); },
+  creak(){ this.tone({freq:180,to:260,dur:.7,type:'sawtooth',gain:.015}); this.burst({dur:.6,type:'bandpass',freq:300,q:6,gain:.05}); },
+  drawer(){ this.burst({dur:.45,type:'lowpass',freq:380,to:800,gain:.4}); this.tone({t:.4,freq:95,dur:.14,gain:.18,type:'triangle'}); },
+  locked(){ this.tone({freq:150,to:90,dur:.16,gain:.22,type:'triangle'}); this.tone({t:.11,freq:140,to:90,dur:.15,gain:.16,type:'triangle'}); },
+  flip(){ this.burst({dur:.16,type:'highpass',freq:2500,gain:.14}); }
+};
+function drawSound(){ $('#mute').textContent = Snd.on ? 'звук' : 'без звуку'; $('#mute').style.opacity = Snd.on ? 1 : .6; $('#track').textContent='♪ '+MUSIC[Snd.track][0]; }
+drawSound();
+$('#mute').onclick=()=>{ Snd.init(); Snd.on=!Snd.on; store.set('sound',Snd.on); if(Snd.master) Snd.master.gain.value=Snd.on?1:0; if(Snd.on) Snd.ambient(); drawSound(); };
+$('#track').onclick=()=>{ Snd.ambient(); Snd.nextTrack(); };
+// звук вмикається з першим же дотиком до сторінки (браузери не дають грати раніше)
+document.addEventListener('pointerdown',()=>{ if(Snd.on) Snd.ambient(); else Snd.init(); },{capture:true});
+document.addEventListener('keydown',()=>{ if(Snd.on) Snd.ambient(); },{capture:true,once:true});
+
+/* ===== Переходи між сценами ===== */
+const ORDER=['s-mandarin','s-cocoa','s-plaid','s-cal'];
+function go(id){ const el=document.getElementById(id); el.classList.remove('hidden'); if(id==='s-cal'){ store.set('ritual',true); fitCab(); } requestAnimationFrame(()=>setTimeout(()=>el.scrollIntoView({behavior:'smooth'}),60)); }
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.querySelectorAll('[data-skip]').forEach(b=>b.onclick=()=>{ ORDER.slice(0,ORDER.indexOf(b.dataset.skip)+1).forEach(id=>document.getElementById(id).classList.remove('hidden')); go(b.dataset.skip); });
+$('#start').onclick=()=>go('s-mandarin');
+if(store.get('ritual',false)){ const j=$('#jump'); j.classList.remove('hidden'); j.onclick=()=>{ ORDER.forEach(id=>document.getElementById(id).classList.remove('hidden')); go('s-cal'); }; }
+
+/* ===== Сніг на першому екрані ===== */
+(function snow(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c=$('#snow'), x=c.getContext('2d'); let W,H; const fl=[];
+  const size=()=>{ W=c.width=c.offsetWidth*devicePixelRatio; H=c.height=c.offsetHeight*devicePixelRatio; }; size(); addEventListener('resize',size);
+  for(let i=0;i<60;i++) fl.push({x:Math.random(),y:Math.random(),r:Math.random()*1.8+.6,s:Math.random()*.35+.15,w:Math.random()*6,o:Math.random()*.5+.3});
+  (function tick(t){ x.clearRect(0,0,W,H);
+    for(const f of fl){ f.y+=f.s*.0014; if(f.y>1.02){f.y=-.02;f.x=Math.random();} x.fillStyle=`rgba(255,250,240,${f.o})`; x.beginPath(); x.arc((f.x+Math.sin(t/1800+f.w)*.01)*W,f.y*H,f.r*devicePixelRatio,0,7); x.fill(); }
+    requestAnimationFrame(tick); })(0);
+})();
+
+/* ===== МАНДАРИНКА: фото, порізане на шматочки шкірки ===== */
+(function mandarin(){
+  const svg=$('#mandarin'), peel=$('#peel'), landed=$('#landed'), defs=$('#pdefs');
+  const IMG={href:'фото/мандаринка_ціла.webp',x:688,y:230,width:649,height:643};
+  const CX=998, CY=592, RX=310, RY=286; let removed=0, TOTAL=0;
+  const rIn = t => .52+.045*Math.sin(3*t+1)+.025*Math.sin(7*t+2);
+  const rOut = t => 1.08+.01*Math.sin(9*t);
+  const P=(r,t)=>[CX+r*RX*Math.cos(t), CY+r*RY*Math.sin(t)];
+  const fmt=p=>p[0].toFixed(1)+','+p[1].toFixed(1);
+  const cpLeaf=mk('clipPath',{id:'cl-leaf','clip-rule':'evenodd'},defs);
+  let ell=''; for(let s=0;s<=60;s++){ const t=s/60*Math.PI*2; ell+=(s?'L':'M')+fmt(P(rOut(t)-.005,t)); }
+  mk('path',{d:`M560,150 H1440 V980 H560 Z ${ell} Z`,'clip-rule':'evenodd'},cpLeaf);
+  const leaf=mk('g',{'clip-path':'url(#cl-leaf)',class:'piece'},peel); mk('image',{...IMG},leaf);
+  leaf.dataset.mx=.3; leaf.dataset.my=-1; leaf.dataset.ox=1200; leaf.dataset.oy=270;
+  const pieces=[leaf];
+  const rings=[{n:5,off:.35,inner:null,outer:rIn},{n:8,off:.1,inner:rIn,outer:rOut}];
+  rings.forEach((rg,k)=>{
+    const angs=[]; for(let i=0;i<rg.n;i++) angs.push(rg.off+i*2*Math.PI/rg.n+Math.sin(i*12.9+k*3.1)*.16);
+    for(let i=0;i<rg.n;i++){
+      const a0=angs[i], a1=i+1<rg.n?angs[i+1]:angs[0]+2*Math.PI, st=16; let d='';
+      for(let s=0;s<=st;s++){ const t=a0+(a1-a0)*s/st; d+=(s?'L':'M')+fmt(P(rg.outer(t),t)); }
+      if(!rg.inner) d+='L'+CX+','+CY; else for(let s=st;s>=0;s--){ const t=a0+(a1-a0)*s/st; d+='L'+fmt(P(rg.inner(t),t)); }
+      const id=`cl-${k}-${i}`, cp=mk('clipPath',{id},defs); mk('path',{d:d+'Z'},cp);
+      const g=mk('g',{'clip-path':`url(#${id})`,class:'piece'},peel); mk('image',{...IMG},g);
+      const mid=(a0+a1)/2, c=P(k?.82:.3,mid);
+      g.dataset.mx=Math.cos(mid); g.dataset.my=Math.sin(mid); g.dataset.ox=c[0]; g.dataset.oy=c[1];
+      pieces.push(g);
+    }
+  });
+  TOTAL=pieces.length-1; $('#m-count').textContent=`0 з ${TOTAL}`;
+  pieces.forEach(pc=>{
+    pc.style.transformOrigin=`${pc.dataset.ox}px ${pc.dataset.oy}px`;
+    let start=null, dx=0, dy=0, gone=false;
+    pc.addEventListener('pointerdown',e=>{ if(gone)return; e.preventDefault(); cap(pc,e); start=svgPt(svg,e); dx=dy=0; pc.classList.add('lift'); peel.appendChild(pc); });
+    pc.addEventListener('pointermove',e=>{ if(!start||gone)return; const p=svgPt(svg,e); dx=p.x-start.x; dy=p.y-start.y; const d=Math.hypot(dx,dy);
+      if(d>70){ gone=true; detach(pc,dx/d,dy/d,dx*.6,dy*.6); } else pc.style.transform=`translate(${dx*.6}px,${dy*.6}px) rotate(${dx*.05}deg)`; });
+    const up=()=>{ if(!start||gone){start=null;return;} start=null; if(Math.hypot(dx,dy)<10){ gone=true; detach(pc,+pc.dataset.mx,+pc.dataset.my,0,0); } else { pc.style.transform=''; pc.classList.remove('lift'); } };
+    pc.addEventListener('pointerup',up); pc.addEventListener('pointercancel',up);
+  });
+  function detach(pc,ux,uy,ox,oy){
+    Snd.peel(); pc.style.pointerEvents='none'; landed.appendChild(pc);
+    const isLeaf = pc===leaf;
+    const dist=isLeaf?160:300+Math.random()*120, rot=(Math.random()-.5)*(isLeaf?120:260), tx=ox+ux*dist, ty=oy+uy*dist*.7+140+Math.random()*60;
+    pc.animate([{transform:`translate(${ox}px,${oy}px) rotate(0deg) scale(1)`},
+                {transform:`translate(${(ox+tx)/2}px,${(oy+ty)/2-80}px) rotate(${rot*.6}deg) scale(1.04)`,offset:.45},
+                {transform:`translate(${tx}px,${ty}px) rotate(${rot}deg) scale(.86)`}],{duration:950,easing:'cubic-bezier(.3,.6,.4,1)',fill:'forwards'})
+      .onfinish=()=>pc.classList.remove('lift');
+    if(isLeaf) return;
+    removed++; $('#m-count').textContent=`${removed} з ${TOTAL}`;
+    if(removed===4) $('#m-hint').textContent='Ще трохи, вже пахне на всю кімнату';
+    if(removed===TOTAL){ $('#m-hint').textContent='Готово!'; setTimeout(()=>{ if(!leaf.style.pointerEvents) detach(leaf,.4,-1,0,0); $('#peeled').classList.add('done'); },250);
+      setTimeout(()=>{ $('#m-next').classList.remove('hidden'); $('#m-count').classList.add('hidden'); },1000); }
+  }
+})();
+
+/* ===== КАКАО: турка наливає → ложка мішає → маршмелоу ===== */
+(function cocoa(){
+  const svg=$('#cocoa'), hint=$('#c-hint'), steps=document.querySelectorAll('#s-cocoa .steps i');
+  const CX=272, CY=299, R_FULL=200, R_EMPTY=132;
+  const liquid=$('#liquid'), circle=$('#liqCircle'), dark=$('#liqDark'), rot=$('#liqRot'), stream=$('#stream'), ripples=$('#ripples'), spoon=$('#spoon'), cezve=$('#cezve');
+  let level=0, phase='pour', pouring=false, last=0, ang=0, acc=0, turns=0, prevA=null, inMug=0;
+  // турка: носик на картинці (320×287) у точці (18.8, 128.5)
+  const SP={x:18.8,y:128.5}, REST={x:540,y:410,a:0}, POUR={x:350,y:205,a:-40};
+  let tilt=0, tiltTarget=0;
+  const placeCezve=()=>{ const k=tilt, x=REST.x+(POUR.x-REST.x)*k, y=REST.y+(POUR.y-REST.y)*k, a=REST.a+(POUR.a-REST.a)*k;
+    cezve.setAttribute('transform',`translate(${x} ${y}) rotate(${a}) translate(${-SP.x} ${-SP.y})`); return {x,y}; };
+  (function animCezve(){ tilt+= (tiltTarget-tilt)*.14; const s=placeCezve();
+    if(tilt>.92 && pouring){ const y=CY, wob=Math.sin(performance.now()/90)*3; stream.setAttribute('d',`M${s.x},${s.y+4} C${s.x-6+wob},${s.y+70} ${CX+10},${(s.y+y)/2} ${CX+2},${y}`); stream.style.opacity=1; } else stream.style.opacity=0;
+    requestAnimationFrame(animCezve); })();
+  const SB={x:66,y:42}; // центр черпачка ложки
+  const placeSpoon=(x,y,deg)=>spoon.setAttribute('transform',`translate(${x} ${y}) rotate(${deg}) translate(${-SB.x} ${-SB.y})`);
+  placeSpoon(110,600,-10);
+  function drawLiquid(){ circle.setAttribute('r',R_EMPTY+(R_FULL-R_EMPTY)*level); liquid.setAttribute('opacity',level>.01?1:0); dark.setAttribute('opacity',(.6*(1-level)).toFixed(2)); }
+  function ripple(){ const c=mk('circle',{cx:CX+(Math.random()-.5)*16,cy:CY+(Math.random()-.5)*16,r:6,fill:'none',stroke:'#f2dcc0','stroke-width':2.5,opacity:.6},ripples);
+    c.animate([{r:6,opacity:.6},{r:90,opacity:0}],{duration:1100,easing:'ease-out'}).onfinish=()=>c.remove(); }
+  // 1) налити: затиснути турку (або чашку)
+  const start=e=>{ if(phase!=='pour')return; e.preventDefault(); pouring=true; tiltTarget=1; Snd.pourStart(); last=performance.now(); requestAnimationFrame(loop); };
+  const stop=()=>{ if(!pouring)return; pouring=false; tiltTarget=0; Snd.pourStop(); };
+  let lastRipple=0;
+  function loop(now){ if(!pouring)return; if(tilt>.92){ level=Math.min(1,level+(now-last)/3000); drawLiquid(); if(now-lastRipple>180){ ripple(); lastRipple=now; } }
+    last=now; if(level>=.995){ level=1; drawLiquid(); stop(); toStir(); return; } requestAnimationFrame(loop); }
+  cezve.addEventListener('pointerdown',start); liquid.addEventListener('pointerdown',start);
+  addEventListener('pointerup',stop); addEventListener('pointercancel',stop);
+  // 2) помішати ложкою
+  function toStir(){ phase='stir'; steps[1].classList.add('on'); hint.textContent='Помішай ложкою по колу: три оберти';
+    tiltTarget=0; placeSpoon(CX+105,CY,0); }
+  let stirring=false;
+  svg.addEventListener('pointerdown',e=>{ if(phase!=='stir')return; e.preventDefault(); stirring=true; cap(svg,e); prevA=null; });
+  svg.addEventListener('pointermove',e=>{ if(!stirring||phase!=='stir')return; const p=svgPt(svg,e); const a=Math.atan2(p.y-CY,p.x-CX);
+    if(prevA!==null){ let da=a-prevA; if(da>Math.PI)da-=2*Math.PI; if(da<-Math.PI)da+=2*Math.PI; ang+=da; acc+=Math.abs(da);
+      rot.setAttribute('transform',`rotate(${(ang*180/Math.PI*1.2).toFixed(1)} ${CX} ${CY})`);
+      placeSpoon(CX+105*Math.cos(a),CY+105*Math.sin(a),a*180/Math.PI);
+      const nt=Math.floor(acc/(2*Math.PI)); if(nt>turns){ turns=nt; Snd.clink(); hint.textContent = turns<3 ? `Оберт ${turns} з 3` : 'Ідеально розмішано'; if(turns>=3) toMallow(); } }
+    prevA=a; });
+  svg.addEventListener('pointerup',()=>stirring=false);
+  // 3) маршмелоу
+  const mg=$('#mallows'), floating=$('#floating');
+  const spots=[[560,40],[660,120],[590,210],[680,290],[560,440]];
+  function toMallow(){ phase='mallow'; steps[2].classList.add('on');
+    cezve.animate([{opacity:1},{opacity:0}],{duration:500,fill:'forwards'});
+    spoon.animate([{opacity:1},{opacity:0}],{duration:400,fill:'forwards'}).onfinish=()=>{ placeSpoon(110,600,-10); spoon.animate([{opacity:0},{opacity:1}],{duration:500,fill:'forwards'}); };
+    setTimeout(()=>{ hint.textContent='Перетягни маршмелоу в чашку';
+      spots.forEach(([x,y],i)=>{ const m=mk('image',{href:`фото/маршмелоу_${i+1}.webp`,x,y,width:100,height:92,class:'mallow',filter:'url(#sh3)'},mg);
+        m.animate([{opacity:0,transform:'translateY(-20px)'},{opacity:1,transform:'none'}],{duration:500,delay:i*90,fill:'backwards'}); drag(m,x,y); }); },450);
+  }
+  function drag(m,hx,hy){ let on=false, off={x:0,y:0};
+    m.addEventListener('pointerdown',e=>{ e.preventDefault(); e.stopPropagation(); on=true; cap(m,e); const p=svgPt(svg,e); off={x:p.x-+m.getAttribute('x'),y:p.y-+m.getAttribute('y')}; mg.appendChild(m); });
+    m.addEventListener('pointermove',e=>{ if(!on)return; const p=svgPt(svg,e); m.setAttribute('x',p.x-off.x); m.setAttribute('y',p.y-off.y); });
+    m.addEventListener('pointerup',()=>{ if(!on)return; on=false; const x=+m.getAttribute('x')+50, y=+m.getAttribute('y')+46, d=Math.hypot(x-CX,y-CY);
+      if(d<R_FULL+20){ const k=Math.min(1,120/d||1), fx=CX+(x-CX)*k, fy=CY+(y-CY)*k;
+        m.setAttribute('x',fx-40); m.setAttribute('y',fy-37); m.setAttribute('width',80); m.setAttribute('height',74);
+        m.classList.add('in','bob'); m.style.animationDelay=(-Math.random()*3)+'s'; floating.appendChild(m); Snd.plop(); inMug++;
+        hint.textContent = inMug<3 ? `Маршмелоу: ${inMug}. Ще!` : `Маршмелоу: ${inMug}. Смачного!`;
+        if(inMug===3) finish();
+      } else { m.setAttribute('x',hx); m.setAttribute('y',hy); } });
+  }
+  function finish(){ $('#steam').classList.add('on'); setTimeout(()=>$('#c-next').classList.remove('hidden'),700); }
+})();
+
+/* ===== ПЛЕД ===== */
+document.querySelectorAll('.plaid').forEach(p=>p.onclick=()=>{
+  document.querySelectorAll('.plaid').forEach(x=>x.classList.remove('picked')); p.classList.add('picked'); $('#plaids').classList.add('chosen'); Snd.rustle();
+  store.set('plaid',p.dataset.i); setDecor(); $('#p-next').classList.remove('hidden');
+});
+
+/* ===== КАЛЕНДАР ===== */
+function fitCab(){ const W=innerWidth, H=innerHeight;
+  document.documentElement.style.setProperty('--s', Math.min(W*.9/775, H*.66/768).toFixed(4));
+  document.documentElement.style.setProperty('--s2', Math.min(W*.98/936, H*.58/660).toFixed(4)); }
+fitCab(); addEventListener('resize',fitCab);
+
+// декор біля скриньки: обраний плед і мандаринки (координати у % від скриньки)
+function setDecor(){ let i=String(store.get('plaid','1')); if(!['1','2','3'].includes(i)) i='1';
+  document.querySelectorAll('.cab').forEach(cab=>{ cab.querySelectorAll('.decor').forEach(d=>d.remove());
+    const add=(src,css)=>{ const im=document.createElement('img'); im.src=src; im.className='decor'; im.alt=''; im.style.cssText=css; cab.appendChild(im); };
+    add(`фото/пледи_${i}.webp`,'left:-6%;bottom:1%;width:30%;transform:rotate(-3deg)');
+    add('фото/мандаринка_почищена.webp','right:-2%;bottom:3%;width:13%');
+    add('фото/мандаринка_ціла.webp','right:9%;bottom:1%;width:15%;transform:rotate(8deg)');
+  }); }
+
+// гірлянда: дріт і теплі лампочки
+function garland(cab){
+  const s=mk('svg',{class:'garland',viewBox:'0 0 1000 160',preserveAspectRatio:'none'});
+  mk('path',{d:'M0,10 Q250,150 500,40 T1000,10',fill:'none',stroke:'#1e2a18','stroke-width':3},s);
+  const pts=[]; for(let i=0;i<=18;i++){ const t=i/18, x=t*1000; let y;
+    if(x<=500){ const u=x/500; y=(1-u)*(1-u)*10+2*(1-u)*u*150+u*u*40; } else { const u=(x-500)/500; y=(1-u)*(1-u)*40+2*(1-u)*u*(-70)+u*u*10; }
+    pts.push([x,y]); }
+  pts.slice(1,-1).forEach(([x,y],i)=>{ const g=mk('g',{class:'b',style:`animation-delay:${(i%5)*.5}s`},s);
+    mk('circle',{cx:x,cy:y+14,r:22,fill:'rgba(255,190,100,.35)',filter:'url(#gl)'},g); mk('ellipse',{cx:x,cy:y+12,rx:5,ry:8,fill:i%4===1?'#ffb27a':'#ffe3a8'},g); });
+  const f=mk('filter',{id:'gl',x:'-1',y:'-1',width:'3',height:'3'},mk('defs',{},s)); mk('feGaussianBlur',{stdDeviation:8},f);
+  cab.appendChild(s);
+}
+
+(function calendar(){
+  const closed=$('#closed'), box=$('#drawers'), hint=$('#cal-hint');
+  // вогники-боке на фоні
+  const bk=$('#bokeh'); for(let i=0;i<22;i++){ const b=document.createElement('i'), s=30+Math.random()*130;
+    b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--bl:${4+Math.random()*10}px;--op:${.08+Math.random()*.22};--d:${6+Math.random()*8}s;--dx:${(Math.random()-.5)*60}px;--dy:${(Math.random()-.5)*60}px`; bk.appendChild(b); }
+  box.innerHTML='<div class="photo"><img src="фото/скринька_шухлядки.jpg" alt=""></div>';
+  garland(closed); garland(box); setDecor();
+  const now=new Date(); let year=now.getFullYear(); if(now.getMonth()===0) year--;
+  const unlock=i=>new Date(year,11,FIRST_DAY+i);
+  const canOpen=i=>TEST_MODE || now>=unlock(i);
+  const opened=new Set(TEST_MODE?[]:store.get('opened',[]).filter(i=>now>=unlock(i)));
+  // шухлядки на фото (координати на оригіналі 1376×768)
+  const COLS=[338,518,698,878], ROWS=[148,330,512], W=160, H=160, OX=220, OY=80, holes=[];
+  for(let i=0;i<DAYS;i++){
+    const cx=COLS[i%4], cy=ROWS[Math.floor(i/4)], day=FIRST_DAY+i;
+    const pos=`left:calc(${cx-OX}px*var(--s2));top:calc(${cy-OY}px*var(--s2));width:calc(${W}px*var(--s2));height:calc(${H}px*var(--s2))`;
+    const hole=document.createElement('div'); hole.className='hole'+(opened.has(i)?' lit':''); hole.style.cssText=pos; box.appendChild(hole); holes.push(hole);
+    const d=document.createElement('button'); d.className='drawer'+(canOpen(i)?'':' locked')+(opened.has(i)?' open':'');
+    const isToday = now.getMonth()===11 && now.getDate()===day;
+    if(isToday) d.classList.add('today');
+    d.style.cssText=pos+`;background-position:calc(${-cx}px*var(--s2)) calc(${-cy}px*var(--s2))`;
+    d.innerHTML=`<span class="plate">${day}</span>${isToday?'<span class="tag">сьогодні</span>':''}`; d.setAttribute('aria-label',`${day} грудня`);
+    pull(d,i); box.appendChild(d);
+  }
+  function pull(el,i){ let sy=null, dy=0;
+    el.addEventListener('pointerdown',e=>{ e.preventDefault(); cap(el,e); sy=e.clientY; dy=0; el.style.transition='none'; });
+    el.addEventListener('pointermove',e=>{ if(sy===null)return; dy=Math.max(0,e.clientY-sy); const k=Math.min(dy,50)/50; if(!el.classList.contains('open')) el.style.transform=`translateY(${k*14}%) scale(${1+k*.07})`; });
+    const up=()=>{ if(sy===null)return; sy=null; el.style.transition=''; el.style.transform=''; if(dy>24||dy<6) tryOpen(el,i); };
+    el.addEventListener('pointerup',up); el.addEventListener('pointercancel',()=>{ sy=null; el.style.transition=''; el.style.transform=''; });
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); tryOpen(el,i); } });
+  }
+  function tryOpen(el,i){
+    if(!canOpen(i)){ Snd.locked(); el.animate([{transform:'translateX(0)'},{transform:'translateX(-4%)'},{transform:'translateX(4%)'},{transform:'translateX(-2%)'},{transform:'translateX(0)'}],{duration:380}); toast(`Ще рано! Ця шухлядка відкриється ${FIRST_DAY+i} грудня`); return; }
+    Snd.drawer(); el.classList.add('open'); holes[i].classList.add('lit'); opened.add(i); if(!TEST_MODE) store.set('opened',[...opened]);
+    setTimeout(()=>showCard(i,el.getBoundingClientRect()),560);
+  }
+  // зворотний відлік до наступної шухлядки
+  function tick(){ const t=new Date(); let next=null; for(let i=0;i<DAYS;i++){ if(t<unlock(i)){ next=i; break; } }
+    const el=$('#countdown');
+    if(TEST_MODE){ el.textContent='тестовий режим: відкриваються всі дні'; return; }
+    if(next===null){ el.textContent='Усі шухлядки вже відкриті. З Новим роком!'; return; }
+    const ms=unlock(next)-t, h=Math.floor(ms/36e5), m=Math.floor(ms%36e5/6e4);
+    el.textContent = next===0 && h>48 ? `Перша шухлядка відкриється ${FIRST_DAY} грудня` : `Наступна шухлядка через ${h} год ${m} хв`; }
+  tick(); setInterval(tick,30000);
+  // дверцята: тягни або натисни
+  let sx=null, p=0;
+  closed.querySelectorAll('.door').forEach(dr=>{
+    dr.addEventListener('pointerdown',e=>{ if(closed.classList.contains('open'))return; e.preventDefault(); cap(dr,e); sx=e.clientX; p=0; closed.classList.add('dragging'); });
+    dr.addEventListener('pointermove',e=>{ if(sx===null)return; p=Math.min(1,Math.abs(e.clientX-sx)/180); closed.style.setProperty('--open',p); });
+    dr.addEventListener('pointerup',()=>{ if(sx===null)return; sx=null; closed.classList.remove('dragging'); if(p>.25||p<.03) openCab(); else closed.style.setProperty('--open',0); });
+  });
+  async function openCab(){ if(closed.classList.contains('open'))return; closed.classList.add('open'); closed.style.setProperty('--open',1); Snd.creak(); Snd.bells();
+    $('#cal-title').textContent='Відчиняємо…'; hint.textContent='';
+    await wait(1300); closed.classList.add('zoom'); await wait(900); showDrawers(); }
+  function showDrawers(){ closed.classList.add('hidden'); box.classList.remove('hidden'); box.classList.add('show');
+    $('#cal-title').textContent='Тягни шухлядку на себе';
+    hint.textContent = `Щовечора нова шухлядка, з ${FIRST_DAY} по ${FIRST_DAY+DAYS-1} грудня`; }
+  if(opened.size) showDrawers();
+
+  // листівка: розмір підлаштовується під мем
+  const modal=$('#modal'), card=$('#card'), inner=$('#card-in'), memeBox=$('#meme'); let front=true;
+  function sizeCard(ratio){ // ratio = ширина/висота мему
+    const maxW=Math.min(innerWidth*.86,440), maxH=innerHeight*.72, pad=.06, capH=.16;
+    let w=maxW, h=w*(1-2*pad)/ratio + w*pad + w*capH;
+    if(h>maxH){ w=maxW*maxH/h; h=maxH; }
+    card.style.setProperty('--cw',w+'px'); card.style.setProperty('--ch',h+'px'); card.style.setProperty('--pad',(w*pad)+'px'); card.style.setProperty('--caph',(w*capH)+'px'); }
+  function loadMeme(i){ const n=String(i+1).padStart(2,'0'); memeBox.innerHTML=''; sizeCard(.8);
+    const ph=document.createElement('div'); ph.className='ph'; ph.innerHTML=`<b>Мем №${i+1}</b><i>скоро тут буде смішно</i>`; memeBox.appendChild(ph);
+    let k=0; const img=new Image(); img.alt=`Мем на ${FIRST_DAY+i} грудня`;
+    img.onload=()=>{ ph.remove(); memeBox.appendChild(img); sizeCard(img.naturalWidth/img.naturalHeight); };
+    img.onerror=()=>{ k++; if(k<MEME_EXT.length) img.src=MEME_FOLDER+n+'.'+MEME_EXT[k]; };
+    img.src=MEME_FOLDER+n+'.'+MEME_EXT[0]; }
+  function showCard(i,from){
+    loadMeme(i); $('#pm-day').textContent=FIRST_DAY+i; $('#cap-date').textContent=`${FIRST_DAY+i} грудня`; $('#cap-text').textContent=CAPTIONS[i]||'З наступаючим!';
+    modal.classList.add('on'); modal.setAttribute('aria-hidden','false');
+    const r=card.getBoundingClientRect();
+    const dx=(from.left+from.width/2)-(r.left+r.width/2), dy=(from.top+from.height*.2)-(r.top+r.height/2), s=from.width/r.width*.7;
+    inner.style.transition='none'; inner.style.transform='rotateY(180deg)';
+    card.animate([{transform:`translate(${dx}px,${dy}px) scale(${s}) rotate(-6deg)`,opacity:0},{transform:`translate(${dx}px,${dy-60}px) scale(${s*1.1}) rotate(-4deg)`,opacity:1,offset:.25},{transform:'translateY(-24px) scale(1.03) rotate(1deg)',offset:.75},{transform:'none'}],{duration:1100,easing:'cubic-bezier(.2,.8,.3,1)'});
+    setTimeout(()=>{ inner.style.transition=''; inner.style.transform='rotateY(0deg)'; front=true; Snd.flip(); },1500);
+  }
+  card.onclick=()=>{ front=!front; inner.style.transform=`rotateY(${front?0:180}deg)`; Snd.flip(); };
+  const close=()=>{ modal.classList.remove('on'); modal.setAttribute('aria-hidden','true'); };
+  $('#close').onclick=close; modal.addEventListener('click',e=>{ if(e.target===modal) close(); }); addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+</body>
+</html>
