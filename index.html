@@ -311,19 +311,19 @@ svg.stage{overflow:visible;touch-action:none;user-select:none;-webkit-user-selec
   <div class="bokeh" id="bokeh"></div>
   <div class="head">
     <div class="orn"><span>адвент мемів</span></div>
-    <h2 id="cal-title">Розв'яжи стрічку</h2>
+    <h2 id="cal-title">Тягни шухлядку на себе</h2>
     <div class="rule"><i></i></div>
-    <p class="hint" id="cal-hint">Потягни дверцята в боки або натисни на бант</p>
+    <p class="hint" id="cal-hint">Щовечора нова шухлядка, з 20 по 31 грудня</p>
     <p class="countdown" id="countdown"></p>
   </div>
   <div class="calstage">
-    <div class="cab" id="closed" style="--gtop:2">
+    <div class="cab hidden" id="closed" style="--gtop:2">
       <div class="photo"><img src="фото/скринька_зачинена.jpg" alt=""></div>
       <div class="inner"></div>
       <div class="door l"><div class="f"></div><div class="b"></div></div>
       <div class="door r"><div class="f"></div><div class="b"></div></div>
     </div>
-    <div class="cab hidden" id="drawers" style="--gtop:2"></div>
+    <div class="cab" id="drawers" style="--gtop:2"></div>
   </div>
 </section>
 
@@ -637,7 +637,7 @@ function garland(cab){
   function showDrawers(){ closed.classList.add('hidden'); box.classList.remove('hidden'); box.classList.add('show');
     $('#cal-title').textContent='Тягни шухлядку на себе';
     hint.textContent = `Щовечора нова шухлядка, з ${FIRST_DAY} по ${FIRST_DAY+DAYS-1} грудня`; }
-  if(opened.size || store.get('cab',false)) showDrawers();  // уже відчиняли: одразу шухлядки
+  showDrawers();  // календар одразу відкритий: видно шухлядки
 
   // листівка: розмір підлаштовується під мем
   const modal=$('#modal'), card=$('#card'), inner=$('#card-in'), memeBox=$('#meme'); let front=true;
