@@ -117,7 +117,7 @@ svg.stage{overflow:visible;touch-action:none;user-select:none;-webkit-user-selec
 @keyframes float{to{transform:translate(var(--dx),var(--dy)) scale(1.1);opacity:calc(var(--op)*1.5)}}
 #s-cal > .head{position:relative;z-index:2}
 .countdown{font-style:italic;font-size:clamp(17px,2.2vw,21px);color:var(--gold);margin-top:4px;min-height:1.3em;text-shadow:0 1px 10px rgba(0,0,0,.8)}
-.calstage{position:relative;z-index:1;margin-top:14px}
+.calstage{position:relative;z-index:1;margin-top:10px}
 .cab{position:relative;margin:0 auto;perspective:1800px;filter:drop-shadow(0 40px 50px rgba(0,0,0,.7))}
 .cab .photo{position:absolute;inset:0;overflow:hidden;
   -webkit-mask:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent),linear-gradient(180deg,transparent,#000 4%,#000 96%,transparent);-webkit-mask-composite:source-in;
@@ -144,9 +144,11 @@ svg.stage{overflow:visible;touch-action:none;user-select:none;-webkit-user-selec
 .cab.dragging .door{transition:none}
 .cab.open .door{pointer-events:none}
 #closed.zoom{transform:scale(2.4) translateY(4%);opacity:0}
-/* шухлядки: 936×660 фрагмент фото */
-#drawers{width:calc(936px*var(--s2));height:calc(660px*var(--s2))}
-#drawers .photo img{width:calc(1376px*var(--s2));left:calc(-220px*var(--s2));top:calc(-80px*var(--s2))}
+/* шухлядки: 835×615 фрагмент фото, обрізаний точно по контуру скриньки (без фону фото) */
+#drawers{width:calc(835px*var(--s2));height:calc(615px*var(--s2))}
+#drawers .photo{-webkit-mask:none;mask:none;
+  clip-path:polygon(1.56% 1.3%,98.44% 1.3%,98.44% 5.69%,95.81% 5.69%,95.81% 92.85%,99.04% 92.85%,99.04% 98.7%,.96% 98.7%,.96% 92.85%,4.19% 92.85%,4.19% 5.69%,1.56% 5.69%)}
+#drawers .photo img{width:calc(1376px*var(--s2));left:calc(-270px*var(--s2));top:calc(-105px*var(--s2))}
 #drawers.show{animation:arrive 1.2s cubic-bezier(.2,.8,.3,1) both}
 @keyframes arrive{from{opacity:0;transform:scale(1.12)}}
 .hole{position:absolute;background:radial-gradient(ellipse at 50% 30%,#4a2a14,#0d0805 70%);box-shadow:inset 0 calc(14px*var(--s2)) calc(22px*var(--s2)) #000}
@@ -313,7 +315,7 @@ svg.stage{overflow:visible;touch-action:none;user-select:none;-webkit-user-selec
     <div class="orn"><span>адвент мемів</span></div>
     <h2 id="cal-title">Тягни шухлядку на себе</h2>
     <div class="rule"><i></i></div>
-    <p class="hint" id="cal-hint">Щовечора нова шухлядка, з 20 по 31 грудня</p>
+    <p class="hint hidden" id="cal-hint"></p>
     <p class="countdown" id="countdown"></p>
   </div>
   <div class="calstage">
@@ -555,16 +557,17 @@ document.querySelectorAll('.plaid').forEach(p=>p.onclick=()=>{
 /* ===== КАЛЕНДАР ===== */
 function fitCab(){ const W=innerWidth, H=innerHeight;
   document.documentElement.style.setProperty('--s', Math.min(W*.9/775, H*.56/768).toFixed(4));
-  document.documentElement.style.setProperty('--s2', Math.min(W*.98/936, H*.54/660).toFixed(4)); }
+  const head=document.querySelector('#s-cal .head'), avail=H-((head && head.offsetHeight)||260)-115;   // скринька займає все вільне місце під заголовком
+  document.documentElement.style.setProperty('--s2', Math.max(.25, Math.min(W*.96/835, avail/615)).toFixed(4)); }
 fitCab(); addEventListener('resize',fitCab);
 
 // декор біля скриньки: обраний плед і мандаринки (координати у % від скриньки)
 function setDecor(){ let i=String(store.get('plaid','1')); if(!['1','2','3'].includes(i)) i='1';
   document.querySelectorAll('.cab').forEach(cab=>{ cab.querySelectorAll('.decor').forEach(d=>d.remove());
     const add=(src,css)=>{ const im=document.createElement('img'); im.src=src; im.className='decor'; im.alt=''; im.style.cssText=css; cab.appendChild(im); };
-    add(`фото/пледи_${i}.webp`,'left:-6%;bottom:1%;width:30%;transform:rotate(-3deg)');
-    add('фото/мандаринка_почищена.webp','right:-2%;bottom:3%;width:13%');
-    add('фото/мандаринка_ціла.webp','right:9%;bottom:1%;width:15%;transform:rotate(8deg)');
+    add(`фото/пледи_${i}.webp`,'left:-9%;bottom:-11%;width:25%;transform:rotate(-3deg)');
+    add('фото/мандаринка_почищена.webp','right:-7%;bottom:-9%;width:12%');
+    add('фото/мандаринка_ціла.webp','right:3%;bottom:-11%;width:13%;transform:rotate(8deg)');
   }); }
 
 // гірлянда: дріт і теплі лампочки
@@ -592,7 +595,7 @@ function garland(cab){
   const canOpen=i=>TEST_MODE || now>=unlock(i);
   const opened=new Set(TEST_MODE?[]:store.get('opened',[]).filter(i=>now>=unlock(i)));
   // шухлядки на фото (координати на оригіналі 1376×768)
-  const COLS=[338,518,698,878], ROWS=[148,330,512], W=160, H=160, OX=220, OY=80, holes=[];
+  const COLS=[338,518,698,878], ROWS=[148,330,512], W=160, H=160, OX=270, OY=105, holes=[];
   for(let i=0;i<DAYS;i++){
     const cx=COLS[i%4], cy=ROWS[Math.floor(i/4)], day=FIRST_DAY+i;
     const pos=`left:calc(${cx-OX}px*var(--s2));top:calc(${cy-OY}px*var(--s2));width:calc(${W}px*var(--s2));height:calc(${H}px*var(--s2))`;
@@ -636,7 +639,7 @@ function garland(cab){
     await wait(1300); closed.classList.add('zoom'); await wait(900); showDrawers(); }
   function showDrawers(){ closed.classList.add('hidden'); box.classList.remove('hidden'); box.classList.add('show');
     $('#cal-title').textContent='Тягни шухлядку на себе';
-    hint.textContent = `Щовечора нова шухлядка, з ${FIRST_DAY} по ${FIRST_DAY+DAYS-1} грудня`; }
+  }
   showDrawers();  // календар одразу відкритий: видно шухлядки
 
   // листівка: розмір підлаштовується під мем
